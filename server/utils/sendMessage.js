@@ -1,4 +1,4 @@
-var credentials = require('./credentials');
+var credentials = require('../../credentials');
 var querystring = require('querystring');
 var https = require('https');
 
@@ -38,7 +38,7 @@ exports.sendMessage = function(to_, message_){
 			    console.log(logStr);
 			}
 		    } else {
-			console.log('Error while sending: ' + jsObject.SMSMessageData.Message);
+				console.error('Error while sending: ' + jsObject.SMSMessageData.Message);
 		    }
 		});
 	});

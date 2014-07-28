@@ -1,3 +1,7 @@
 <h1 class='text-center'>Home page</h2>
 
-<!-- form to send POST request to send message goes here -->
+<h4>File Upload</h4>
+<form action='/upload' method='POST' enctype='multipart/form-data'>
+	<input type='file' name='file'>
+	<input type='submit' class='btn btn-default' value='Upload'>
+</form>

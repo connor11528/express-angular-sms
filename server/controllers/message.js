@@ -1,4 +1,4 @@
-var messages = require('../sendMessage')
+var messages = require('../utils/sendMessage')
 
 exports.findAll = function(req, res){
 	res.send([{message: 'message1'}, {message: 'message2'}])
@@ -11,4 +11,6 @@ exports.findById = function(req, res){
 exports.sendSMS = function(req, res){
 	sendMessage('+254714019079', 'Hello this is the message')
 }
+
+
 
