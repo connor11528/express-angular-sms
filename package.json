@@ -9,7 +9,8 @@
     "express": "3.4.4",
     "jade": "*",
     "mongoose": "^3.8.8",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "readable-stream": "^1.0.27-1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

@@ -7,7 +7,7 @@ var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.logger('dev'));
 app.use(express.methodOverride());
-// app.use(express.multipart({ uploadDir: __dirname + '/uploads', limit: '50mb' }))
+app.use(express.bodyParser({ uploadDir: path.join(__dirname + '/uploads'), keepExtensions: true }))
 
 // development only
 if ('development' == app.get('env')) {
