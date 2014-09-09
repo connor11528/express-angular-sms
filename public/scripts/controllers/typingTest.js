@@ -1,19 +1,33 @@
 
 app.controller('TypingTestCtrl', function($scope, quote){
 
-	
-	$scope.area = 'When you are ready to begin press Start';
+	$scope.userInput = ''
+	$scope.area = { quote: 'When you are ready to begin press Start' };
 
 	$scope.start = function(){
-		$scope.area = quote.getQuote();
-		var startTime = new Date();
+    $scope.area.quote = 'Waiting...';
+    quote.getQuote().then(function(data){
+      $scope.area = data;
+    });
 	};
+
+  $scope.$watch('area', function(){
+    console.log('begin typing..')
+    var startTime = new Date();
+
+  });
 
 	$scope.$on('keypress', function(e, key){
 		console.log(key)
-	})
+    $scope.userInput.concat(key)
+	});
 
 });
+
+
+
+
+
 
 app.directive('captureKeypresses', [
   '$document',

@@ -1,9 +1,12 @@
 <div class='row text-center' capture-keypresses>
 	<h3>Typing Test</h3>
 
-	<textarea class="form-control" rows="5" ng-model='area'></textarea>
+	{{ area.author }}
+	<textarea class="form-control" rows="3" ng-model='area.quote'></textarea>
 
 	<button class='btn btn-lg btn-primary' ng-click='start()'>Start</button>
 </div>
 
-<pre>{{ keypress }}</pre>
+<textarea class='form-control' rows='3' ng-model='userInput' placeholder='type here!'></textarea>
+
+<pre>{{ userInput | json }}</pre>

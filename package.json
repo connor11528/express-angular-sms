@@ -10,7 +10,8 @@
     "jade": "*",
     "mongoose": "^3.8.8",
     "querystring": "^0.2.0",
-    "readable-stream": "^1.0.27-1"
+    "readable-stream": "^1.0.27-1",
+    "request": "^2.42.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
