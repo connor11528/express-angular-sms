@@ -13,6 +13,10 @@ app.config(function ($routeProvider) {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/typingtest', {
+        templateUrl: 'views/typingTest.html',
+        controller: 'TypingTestCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
