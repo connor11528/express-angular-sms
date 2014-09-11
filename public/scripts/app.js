@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('publicApp', [
+var app = angular.module('express-angular-sms', [
   'ngCookies',
   'ngResource',
   'ngSanitize',

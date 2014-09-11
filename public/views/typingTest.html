@@ -2,7 +2,8 @@
 	<h3>Typing Test</h3>
 
 	{{ area.author }}
-	<textarea class="form-control" rows="3" ng-model='area.quote'></textarea>
+	<textarea class="form-control" rows="3" 
+		ng-model='area.quote' check-typing input='userInput' quote='area.quote'></textarea>
 
 	<button class='btn btn-lg btn-primary' ng-click='start()'>Start</button>
 </div>
