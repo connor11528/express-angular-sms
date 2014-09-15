@@ -13,15 +13,11 @@ module.exports = function(app){
 			method: 'POST',
 			url: "https://andruxnet-random-famous-quotes.p.mashape.com/cat=movies",
 			headers: {
-				"X-Mashape-Key": "18xN7oh3kpmshc1xZIBLnT4UpG8ap1fQZ7rjsnLxlITG717Yaq"
+				"X-Mashape-Key": "ttM91oEJCkmsh1UtJS5lZ4n3I7cqp19JieYjsnghZmMJ92Wdza"
 			},
 			json: true
 		}, function(err, x, quote){
-			if(err){
-				console.log(err)
-				return next(err)
-			}
-			console.log(x)
+			if(err){ return next(err); }
 			res.json(quote);
 		})
 	})

@@ -3,11 +3,14 @@
 
 	{{ area.author }}
 	<textarea class="form-control" rows="3" 
-		ng-model='area.quote' check-typing input='userInput' quote='area.quote'></textarea>
+		ng-model='area.quote' check-typing input='userInput' 
+		quote='area.quote' finish-test='end(phrase)'></textarea>
 
 	<button class='btn btn-lg btn-primary' ng-click='start()'>Start</button>
 </div>
 
-<textarea class='form-control' rows='3' ng-model='userInput' placeholder='type here!'></textarea>
+<textarea class='form-control' rows='3' 
+	ng-model='userInput' placeholder='This is where you will type'
+	focus-cursor></textarea>
 
-<pre>{{ userInput | json }}</pre>
+<div ng-if='result' class="alert alert-success" role="alert">{{ result }}</div>

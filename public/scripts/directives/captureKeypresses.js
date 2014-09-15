@@ -22,12 +22,42 @@ app.directive('checkTyping', function(){
     restrict: 'A',
     scope: {
       input: '=',
-      quote: '='
+      quote: '=',
+      finishTest: '&'
     },
     link: function(scope, elem, attrs){
       scope.$watch('input', function(){
-        console.log(scope.input)
+        var inputLength = scope.input.length;
+        var quoteSoFar = scope.quote.substring(0, inputLength)
+
+        // user typed a wrong letter
+        if(quoteSoFar !== scope.input){
+          elem.css('background-color', 'rgb(224,0,0)')
+        } else {
+          elem.css('background-color', 'white')
+        }
+
+        if(scope.quote === scope.input){
+          // pass phrase to controller
+          scope.finishTest({phrase: scope.quote});
+        }
       })
     }
   }
 })
+
+app.directive('focusCursor', function($timeout){
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attrs){
+      scope.$watch('startTest', function(startTest){
+        if(startTest){
+          $timeout(function(){
+            elem[0].focus()
+          }, 0);
+          attrs.$set('placeholder', 'Go!');
+        }
+      });
+    }
+  };
+});
