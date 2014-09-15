@@ -13,6 +13,10 @@ app.config(function ($routeProvider) {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/fileupload', {
+        templateUrl: 'views/fileupload.html',
+        controller: 'FileUploadCtrl'
+      })
       .when('/typingtest', {
         templateUrl: 'views/typingTest.html',
         controller: 'TypingTestCtrl'
