@@ -15,7 +15,8 @@ var Parser = require('./parser')
   , Compiler = require('./compiler')
   , runtime = require('./runtime')
   , addWith = require('with')
-  , fs = require('fs');
+  , fs = require('fs')
+  , utils = require('./utils');
 
 /**
  * Expose self closing tags.
@@ -116,6 +117,10 @@ function parse(str, options){
 
   var globals = [];
 
+  if (options.globals) {
+    globals = options.globals.slice();
+  }
+
   globals.push('jade');
   globals.push('jade_mixins');
   globals.push('jade_interp');
@@ -152,7 +157,7 @@ function parse(str, options){
 exports.compile = function(str, options){
   var options = options || {}
     , filename = options.filename
-      ? JSON.stringify(options.filename)
+      ? utils.stringify(options.filename)
       : 'undefined'
     , fn;
 
@@ -165,7 +170,7 @@ exports.compile = function(str, options){
       , 'try {'
       , parsed.body
       , '} catch (err) {'
-      , '  jade.rethrow(err, jade_debug[0].filename, jade_debug[0].lineno' + (options.compileDebug === true ? ',' + JSON.stringify(str) : '') + ');'
+      , '  jade.rethrow(err, jade_debug[0].filename, jade_debug[0].lineno' + (options.compileDebug === true ? ',' + utils.stringify(str) : '') + ');'
       , '}'
     ].join('\n');
   } else {
@@ -204,7 +209,7 @@ exports.compile = function(str, options){
 exports.compileClient = function(str, options){
   var options = options || {};
   var name = options.name || 'template';
-  var filename = options.filename ? JSON.stringify(options.filename) : 'undefined';
+  var filename = options.filename ? utils.stringify(options.filename) : 'undefined';
   var fn;
 
   str = String(str);
@@ -216,7 +221,7 @@ exports.compileClient = function(str, options){
       , 'try {'
       , parse(str, options).body
       , '} catch (err) {'
-      , '  jade.rethrow(err, jade_debug[0].filename, jade_debug[0].lineno, ' + JSON.stringify(str) + ');'
+      , '  jade.rethrow(err, jade_debug[0].filename, jade_debug[0].lineno, ' + utils.stringify(str) + ');'
       , '}'
     ].join('\n');
   } else {

@@ -122,7 +122,7 @@ Compiler.prototype = {
       }
     }
 
-    str = JSON.stringify(str);
+    str = utils.stringify(str);
     str = str.substr(1, str.length - 2);
 
     if (this.lastBufferedIdx == this.buf.length) {
@@ -194,7 +194,7 @@ Compiler.prototype = {
     if (debug) {
       this.buf.push('jade_debug.unshift({ lineno: ' + node.line
         + ', filename: ' + (node.filename
-          ? JSON.stringify(node.filename)
+          ? utils.stringify(node.filename)
           : 'jade_debug[0].filename')
         + ' });');
     }
@@ -396,8 +396,19 @@ Compiler.prototype = {
       if (pp) this.buf.push("jade_indent.pop();")
     } else {
       var mixin_start = this.buf.length;
-      this.buf.push(name + ' = function(' + args + '){');
+      args = args ? args.split(',') : [];
+      var rest;
+      if (args.length && /^\.\.\./.test(args[args.length - 1].trim())) {
+        rest = args.pop().trim().replace(/^\.\.\./, '');
+      }
+      this.buf.push(name + ' = function(' + args.join(',') + '){');
       this.buf.push('var block = (this && this.block), attributes = (this && this.attributes) || {};');
+      if (rest) {
+        this.buf.push('var ' + rest + ' = [];');
+        this.buf.push('for (jade_interp = ' + args.length + '; jade_interp < arguments.length; jade_interp++) {');
+        this.buf.push('  ' + rest + '.push(arguments[jade_interp]);');
+        this.buf.push('}');
+      }
       this.parentIndents++;
       this.visit(block);
       this.parentIndents--;
@@ -631,7 +642,7 @@ Compiler.prototype = {
         var val = this.attrs(attrs);
         attributeBlocks.unshift(val);
       }
-      this.bufferExpression('jade.attrs(jade.merge([' + attributeBlocks.join(',') + ']), ' + JSON.stringify(this.terse) + ')');
+      this.bufferExpression('jade.attrs(jade.merge([' + attributeBlocks.join(',') + ']), ' + utils.stringify(this.terse) + ')');
     } else if (attrs.length) {
       this.attrs(attrs, true);
     }
@@ -661,11 +672,11 @@ Compiler.prototype = {
           if (escaped && !(key.indexOf('data') === 0 && typeof val !== 'string')) {
             val = runtime.escape(val);
           }
-          buf.push(JSON.stringify(key) + ': ' + JSON.stringify(val));
+          buf.push(utils.stringify(key) + ': ' + utils.stringify(val));
         }
       } else {
         if (buffer) {
-          this.bufferExpression('jade.attr("' + key + '", ' + attr.val + ', ' + JSON.stringify(escaped) + ', ' + JSON.stringify(this.terse) + ')');
+          this.bufferExpression('jade.attr("' + key + '", ' + attr.val + ', ' + utils.stringify(escaped) + ', ' + utils.stringify(this.terse) + ')');
         } else {
           var val = attr.val;
           if (escaped && !(key.indexOf('data') === 0)) {
@@ -673,7 +684,7 @@ Compiler.prototype = {
           } else if (escaped) {
             val = '(typeof (jade_interp = ' + val + ') == "string" ? jade.escape(jade_interp) : jade_interp)';
           }
-          buf.push(JSON.stringify(key) + ': ' + val);
+          buf.push(utils.stringify(key) + ': ' + val);
         }
       }
     }.bind(this));
@@ -681,15 +692,15 @@ Compiler.prototype = {
       if (classes.every(isConstant)) {
         this.buffer(runtime.cls(classes.map(toConstant), classEscaping));
       } else {
-        this.bufferExpression('jade.cls([' + classes.join(',') + '], ' + JSON.stringify(classEscaping) + ')');
+        this.bufferExpression('jade.cls([' + classes.join(',') + '], ' + utils.stringify(classEscaping) + ')');
       }
     } else if (classes.length) {
       if (classes.every(isConstant)) {
-        classes = JSON.stringify(runtime.joinClasses(classes.map(toConstant).map(runtime.joinClasses).map(function (cls, i) {
+        classes = utils.stringify(runtime.joinClasses(classes.map(toConstant).map(runtime.joinClasses).map(function (cls, i) {
           return classEscaping[i] ? runtime.escape(cls) : cls;
         })));
       } else {
-        classes = '(jade_interp = ' + JSON.stringify(classEscaping) + ',' +
+        classes = '(jade_interp = ' + utils.stringify(classEscaping) + ',' +
           ' jade.joinClasses([' + classes.join(',') + '].map(jade.joinClasses).map(function (cls, i) {' +
           '   return jade_interp[i] ? jade.escape(cls) : cls' +
           ' }))' +
