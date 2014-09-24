@@ -6,7 +6,7 @@ var app = express();
 // all environments
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.logger('dev'));
-app.use(express.methodOverride());
+app.use(express.methodOverride())
 app.use(express.bodyParser({ uploadDir: path.join(__dirname + '/uploads'), keepExtensions: true }))
 
 // development only

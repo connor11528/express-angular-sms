@@ -15,7 +15,7 @@ app.controller('TypingTestCtrl', function($scope, quote){
       $scope.startTest = true;
     });
 	};
-
+ 
   $scope.end = function(phrase){
     var words = phrase.length/5;  // a word is five keystrokes
     var timeElapsed = (new Date().getTime() - $scope.startTime) / 1000;
